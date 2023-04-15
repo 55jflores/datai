@@ -80,7 +80,7 @@ export default function Home() {
 
 
       <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-700 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
-        <label htmlFor="pet-select">Choose a Body Part:</label>
+        <label className='text-gray-800 dark:text-white' htmlFor="bodypart">Choose a Body Part:</label>
 
         <select name="bodypart" id="bodypart" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
             <option value="">--Please choose an option--</option>
@@ -103,7 +103,7 @@ export default function Home() {
             <option value="Triceps">Triceps</option>
         </select>
 
-        <label htmlFor="pet-select">Choose a piece of equipment:</label>
+        <label className='text-gray-800 dark:text-white' htmlFor="equipment">Choose a piece of equipment:</label>
 
         <select name="equipment" id="equipment" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
           <option value="">--Please choose an option--</option>
