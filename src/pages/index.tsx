@@ -69,7 +69,8 @@ export default function Home() {
     // div className='container'
   }
   return (
-    <div className="bg-white dark:bg-black">
+
+    <div>
 
       <div className='flex flex-col items-center text-gray-800 dark:text-white'>
         <h1>Welcome!</h1>
@@ -78,7 +79,7 @@ export default function Home() {
       </div>
 
 
-      <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-800 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
+      <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-700 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
         <label htmlFor="pet-select">Choose a Body Part:</label>
 
         <select name="bodypart" id="bodypart" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
@@ -123,14 +124,14 @@ export default function Home() {
         </select>
 
         
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-2">
           Submit
         </button>
       </form>
 
-      <div className=" bg-gray-300 dark:bg-gray-800 mt-4">
-        {loading && <h1 className="text-gray-800 dark:text-white"><b>Fetching data ...</b></h1>}
-        {noExercises && <p className="text-gray-800 dark:text-white">No Exercises found for {bodyPart} using {equipment} :&#40;</p>}
+      <div className=" bg-white dark:bg-gray-800 mt-4">
+        {loading && <h1 className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4"><b>Fetching data ...</b></h1>}
+        {noExercises && <p className=" bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4">No Exercises found for {bodyPart} using {equipment} :&#40;</p>}
         {exercises.length !== 0 && 
           <div className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">
           <h1 className="text-gray-800 dark:text-white">Exercises for {bodyPart} using {equipment} : <b>{exercises.length}</b></h1> 
@@ -144,8 +145,8 @@ export default function Home() {
         )}
       </div>
       
-      
-      
     </div>
+
+
   )
 }
