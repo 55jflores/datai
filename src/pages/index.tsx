@@ -73,7 +73,7 @@ export default function Home() {
 
       <div className='flex flex-col items-center text-gray-800 dark:text-white'>
         <h1>Welcome!</h1>
-        <h1>Enter a Body part you'd like to target as well as equipment you'd like to use</h1>
+        <h1>Enter a Body part you&apos;d like to target as well as equipment you&apos;d like to use</h1>
         <h1>You will be given a result of all the exercises that target that body part using that piece of equipment!</h1>
       </div>
 
