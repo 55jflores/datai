@@ -1,124 +1,151 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Link from 'next/link'
+import { FormEvent } from 'react'
+import { useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+type exercise = {
+    BodyPart: string,
+    Description: string,
+    Equipment: number,
+    ID: string,
+    Title: string
+}
+
+type exercisesArray = Array<exercise>;
 
 export default function Home() {
+  const [exercises, setExercises] = useState<exercisesArray>([]);
+  const [bodyPart, setBodyPart] = useState('');
+  const [equipment, setEquipment] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [noExercises, setNoExercises] = useState(false);
+  // Handle the submit event on form submit.
+  const handleSubmit = async (event: FormEvent) => {
+    setLoading(true);
+    setExercises([])
+    setBodyPart('')
+    setEquipment('')
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
+
+    // Cast the event target to an html form
+    const form = event.target as HTMLFormElement
+
+    // Get data from the form.
+    const data = {
+      bodypart: form.bodypart.value as string,
+      equipment: form.equipment.value as string,
+    }
+
+    // Send the form data to our API and get a response.
+    const response = await fetch('/api/equipment', {
+      // Body of the request is the JSON data we created above.
+      body: JSON.stringify(data),
+      // Tell the server we're sending JSON.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // The method is POST because we are sending data.
+      method: 'POST',
+    })
+
+    // Get the response data from server as JSON.
+    // If server returns the name submitted, that means the form works.
+    const result = await response.json()
+    setBodyPart(form.bodypart.value as string)
+    setEquipment(form.equipment.value as string)
+
+    // If exercises were found
+    if (result.data.length !== 0){
+        setNoExercises(false);
+        setExercises(result.data as exercisesArray);
+    }
+    else {
+        setNoExercises(true);
+    }
+    
+    setLoading(false);
+    console.log('Front end result is ',result.data)
+    //alert(`Is this your full name: ${result.data}`)
+    // div className='container'
+  }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className="bg-white dark:bg-black">
+
+      <div className='flex flex-col items-center text-gray-800 dark:text-white'>
+        <h1>Welcome!</h1>
+        <h1>Enter a Body part you'd like to target as well as equipment you'd like to use</h1>
+        <h1>You will be given a result of all the exercises that target that body part using that piece of equipment!</h1>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+
+      <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-800 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
+        <label htmlFor="pet-select">Choose a Body Part:</label>
+
+        <select name="bodypart" id="bodypart" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+            <option value="">--Please choose an option--</option>
+            <option value="Abdominals">Abdominals</option>
+            <option value="Adductors">Adductors</option>
+            <option value="Abductors">Abductors</option>
+            <option value="Biceps">Biceps</option>
+            <option value="Calves">Calves</option>
+            <option value="Chest">Chest</option>
+            <option value="Forearms">Forearms</option>
+            <option value="Glutes">Glutes</option>
+            <option value="Hamstrings">Hamstrings</option>
+            <option value="Lats">Lats</option>
+            <option value="Lower Back">Lower Back</option>
+            <option value="Middle Back">Middle Back</option>
+            <option value="Traps">Traps</option>
+            <option value="Neck">Neck</option>
+            <option value="Quadcriceps">Quadcriceps</option>
+            <option value="Shoulders">Shoulders</option>
+            <option value="Triceps">Triceps</option>
+        </select>
+
+        <label htmlFor="pet-select">Choose a piece of equipment:</label>
+
+        <select name="equipment" id="equipment" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+          <option value="">--Please choose an option--</option>
+          <option value="Bands">Bands</option>
+          <option value="Barbell">Barbell</option>
+          <option value="Kettlebells">Kettlebells</option>
+          <option value="Dumbbell">Dumbbell</option>
+          <option value="Other">Other</option>
+          <option value="Cable">Cable</option>
+          <option value="Machine">Machine</option>
+          <option value="Body Only">Body Only</option>
+          <option value="Medicine Ball">Medicine Ball</option>
+          <option value="None">None</option>
+          <option value="Exercise Ball">Exercise Ball</option>
+          <option value="Foam Roll">Foam Roll</option>
+          <option value="E-Z Curl Bar">E-Z Curl Bar</option>
+
+        </select>
+
+        
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          Submit
+        </button>
+      </form>
+
+      <div className=" bg-gray-300 dark:bg-gray-800 mt-4">
+        {loading && <h1 className="text-gray-800 dark:text-white"><b>Fetching data ...</b></h1>}
+        {noExercises && <p className="text-gray-800 dark:text-white">No Exercises found for {bodyPart} using {equipment} :&#40;</p>}
+        {exercises.length !== 0 && 
+          <div className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">
+          <h1 className="text-gray-800 dark:text-white">Exercises for {bodyPart} using {equipment} : <b>{exercises.length}</b></h1> 
+          </div>
+        }
+        {exercises.length !== 0 && exercises.map((item: exercise) => 
+          <div key={item.ID} className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">
+            <p className="text-gray-800 dark:text-white">Name: {item.Title}</p>
+            <p className="text-gray-800 dark:text-white mt-4">Description: {item.Description}</p>
+          </div>
+        )}
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      
+      
+      
+    </div>
   )
 }
