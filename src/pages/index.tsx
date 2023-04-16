@@ -116,7 +116,6 @@ export default function Home() {
           <option value="Machine">Machine</option>
           <option value="Body Only">Body Only</option>
           <option value="Medicine Ball">Medicine Ball</option>
-          <option value="None">None</option>
           <option value="Exercise Ball">Exercise Ball</option>
           <option value="Foam Roll">Foam Roll</option>
           <option value="E-Z Curl Bar">E-Z Curl Bar</option>
@@ -131,7 +130,7 @@ export default function Home() {
 
       <div className=" bg-white dark:bg-gray-800 mt-4">
         {loading && <h1 className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4"><b>Fetching data ...</b></h1>}
-        {noExercises && <p className=" bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4">No Exercises found for {bodyPart} using {equipment} :&#40;</p>}
+        {noExercises && <p className=" bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4">No Exercises found for {bodyPart} using {equipment}, please try a different combination :&#40; </p>}
         {exercises.length !== 0 && 
           <div className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">
           <h1 className="text-gray-800 dark:text-white">Exercises for {bodyPart} using {equipment} : <b>{exercises.length}</b></h1> 
