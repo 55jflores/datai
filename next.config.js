@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-}
-
-module.exports = {
-  nextConfig,
-  env: {
-    NASA: process.env.NASA
+  images: {
+    domains: ['apod.nasa.gov']
   }
 }
+
+module.exports = nextConfig
+

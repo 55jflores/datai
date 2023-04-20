@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Image from "next/image";
 type apod = {
     copyright: string,
     date: string,
@@ -41,12 +41,12 @@ export default function Apod() {
         {imgObj !== undefined && (
             <div className="flex flex-col items-center p-4 rounded-lg shadow-lg">
             <p className="text-gray-800 dark:text-white">{imgObj["date"]}</p>
-            <img
+            <Image
+                className="rounded-md"
                 src={imgObj["hdurl"]}
                 alt="new"
                 width={512}
                 height={512}
-                className="rounded-md"
             />
             <p className="text-gray-800 dark:text-white">{imgObj["explanation"]}</p>
             </div>
