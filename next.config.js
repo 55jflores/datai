@@ -4,8 +4,5 @@ const nextConfig = {
 }
 
 module.exports = {
-  nextConfig,
-  env: {
-    NASA: process.env.NASA
-  }
+  nextConfig
 }
