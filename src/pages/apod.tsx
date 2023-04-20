@@ -27,6 +27,7 @@ export default function Apod() {
 
         // Get the response data from server as JSON.
         const result = await response.json();
+        console.log(result)
         setImgObj(result.data as apod);
             
         }
@@ -43,7 +44,7 @@ export default function Apod() {
             <p className="text-gray-800 dark:text-white">{imgObj["date"]}</p>
             <Image
                 className="rounded-md"
-                src={imgObj["hdurl"]}
+                src={imgObj["url"]}
                 alt="new"
                 width={512}
                 height={512}
