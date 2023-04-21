@@ -125,6 +125,7 @@ export default function Exercises() {
     setIsLoading(false);
 
   }
+
   return (
 
     <div>
@@ -136,32 +137,37 @@ export default function Exercises() {
 
 
       <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-700 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
-        <label className='text-gray-800 dark:text-white' htmlFor="bodypart">Choose a Body Part:</label>
+      <div className="flex justify-between mb-5">
+        <div className="flex flex-col items-center mr-5">
+          <label className='text-gray-800 dark:text-white' htmlFor="bodypart">Body Part:</label>
+          <Select
+            value={selectedBodyPart}
+            onChange={handleBodyPartChange}
+            options={bodyPartOptions}
+            isSearchable={true}
+            placeholder="Select an option"
+            name='bodypart'
+            id='bodypart'
+            required
+          />
+        </div>
 
+        <div className="flex flex-col items-center ml-5">
+          <label className='text-gray-800 dark:text-white' htmlFor="equipment">Equipment:</label>
+          <Select
+            value={selectedEquipment}
+            onChange={handleEquipmentChange}
+            options={equipmentOptions}
+            isSearchable={true}
+            placeholder="Select an option"
+            name='equipment'
+            id='equipment'
+            required
+            className="text-gray-800 dark:text-gray-800"
+          />
+        </div>
 
-        <Select
-          value={selectedBodyPart}
-          onChange={handleBodyPartChange}
-          options={bodyPartOptions}
-          isSearchable={true}
-          placeholder="Select an option"
-          name='bodypart'
-          id='bodypart'
-          required
-        />
-
-        <label className='text-gray-800 dark:text-white' htmlFor="equipment">Choose a piece of equipment:</label>
-         <Select
-          value={selectedEquipment}
-          onChange={handleEquipmentChange}
-          options={equipmentOptions}
-          isSearchable={true}
-          placeholder="Select an option"
-          name='equipment'
-          id='equipment'
-          required
-          className="text-gray-800 dark:text-gray-800"
-        />
+      </div>
         
         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-2">
           Submit
