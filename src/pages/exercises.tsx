@@ -1,5 +1,8 @@
 import { FormEvent } from 'react'
 import { useState } from 'react'
+import Select from 'react-select';
+
+import LoadingComponent from "./loading";
 
 type exercise = {
     BodyPart: string,
@@ -11,15 +14,73 @@ type exercise = {
 
 type exercisesArray = Array<exercise>;
 
+interface DropdownState {
+  selectedBodyPart: { value: string; label: string } | null;
+  selectedEquipment: { value: string; label: string } | null;
+
+}
+
+type ExerciseOptions = {
+  value: string;
+  label: string;
+}
 export default function Exercises() {
   const [exercises, setExercises] = useState<exercisesArray>([]);
   const [bodyPart, setBodyPart] = useState('');
   const [equipment, setEquipment] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [noExercises, setNoExercises] = useState(false);
+
+  const [selectedBodyPart, setSelectedBodyPart] = useState<ExerciseOptions | null>(null);
+  const [selectedEquipment, setSelectedEquipment] = useState<ExerciseOptions | null>(null);
+
+
+  const bodyPartOptions = [
+    { value: 'Abdominals', label: 'Abdominals' },
+    { value: 'Adductors', label: 'Adductors' },
+    { value: 'Abductors', label: 'Abductors' },
+    { value: 'Biceps', label: 'Biceps' },
+    { value: 'Calves', label: 'Calves' },
+    { value: 'Chest', label: 'Chest' },
+    { value: 'Forearms', label: 'Forearms' },
+    { value: 'Glutes', label: 'Glutes' },
+    { value: 'Hamstrings', label: 'Hamstrings' },
+    { value: 'Lats', label: 'Lats' },
+    { value: 'Lower Back', label: 'Lower Back' },
+    { value: 'Middle Back', label: 'Middle Back' },
+    { value: 'Traps', label: 'Traps' },
+    { value: 'Neck', label: 'Neck' },
+    { value: 'Quadriceps', label: 'Quadriceps' },
+    { value: 'Shoulders', label: 'Shoulders' },
+    { value: 'Triceps', label: 'Triceps' },
+  ];
+
+  const equipmentOptions = [
+    { value: 'Bands', label: 'Bands' },
+    { value: 'Barbell', label: 'Barbell' },
+    { value: 'Kettlebells', label: 'Kettlebells' },
+    { value: 'Dumbbell', label: 'Dumbbell' },
+    { value: 'Other', label: 'Other' },
+    { value: 'Cable', label: 'Cable' },
+    { value: 'Machine', label: 'Machine' },
+    { value: 'Body Only', label: 'Body Only' },
+    { value: 'Medicine Ball', label: 'Medicine Ball' },
+    { value: 'Exercise Ball', label: 'Exercise Ball' },
+    { value: 'Foam Roll', label: 'Foam Roll' },
+    { value: 'E-Z Curl Bar', label: 'E-Z Curl Bar' },
+  ];
+
+  const handleBodyPartChange = (selectedBodyPart: ExerciseOptions | null) => {
+    setSelectedBodyPart(selectedBodyPart);
+  };
+
+  const handleEquipmentChange = (selectedEquipment: ExerciseOptions | null) => {
+    setSelectedEquipment(selectedEquipment);
+  };
+
   // Handle the submit event on form submit.
   const handleSubmit = async (event: FormEvent) => {
-    setLoading(true);
+    setIsLoading(true);
     setExercises([])
     setBodyPart('')
     setEquipment('')
@@ -34,7 +95,7 @@ export default function Exercises() {
       bodypart: form.bodypart.value as string,
       equipment: form.equipment.value as string,
     }
-
+    
     // Send the form data to our API and get a response.
     const response = await fetch('/api/equipment', {
       // Body of the request is the JSON data we created above.
@@ -60,12 +121,9 @@ export default function Exercises() {
     }
     else {
         setNoExercises(true);
-    }
-    
-    setLoading(false);
-    console.log('Front end result is ',result.data)
-    //alert(`Is this your full name: ${result.data}`)
-    // div className='container'
+    } 
+    setIsLoading(false);
+
   }
   return (
 
@@ -80,46 +138,30 @@ export default function Exercises() {
       <form onSubmit={handleSubmit} className="bg-gray-300 dark:bg-gray-700 p-6 rounded-lg shadow-lg mt- flex flex-col items-center">
         <label className='text-gray-800 dark:text-white' htmlFor="bodypart">Choose a Body Part:</label>
 
-        <select name="bodypart" id="bodypart" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
-            <option value="">--Please choose an option--</option>
-            <option value="Abdominals">Abdominals</option>
-            <option value="Adductors">Adductors</option>
-            <option value="Abductors">Abductors</option>
-            <option value="Biceps">Biceps</option>
-            <option value="Calves">Calves</option>
-            <option value="Chest">Chest</option>
-            <option value="Forearms">Forearms</option>
-            <option value="Glutes">Glutes</option>
-            <option value="Hamstrings">Hamstrings</option>
-            <option value="Lats">Lats</option>
-            <option value="Lower Back">Lower Back</option>
-            <option value="Middle Back">Middle Back</option>
-            <option value="Traps">Traps</option>
-            <option value="Neck">Neck</option>
-            <option value="Quadcriceps">Quadcriceps</option>
-            <option value="Shoulders">Shoulders</option>
-            <option value="Triceps">Triceps</option>
-        </select>
+
+        <Select
+          value={selectedBodyPart}
+          onChange={handleBodyPartChange}
+          options={bodyPartOptions}
+          isSearchable={true}
+          placeholder="Select an option"
+          name='bodypart'
+          id='bodypart'
+          required
+        />
 
         <label className='text-gray-800 dark:text-white' htmlFor="equipment">Choose a piece of equipment:</label>
-
-        <select name="equipment" id="equipment" required className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
-          <option value="">--Please choose an option--</option>
-          <option value="Bands">Bands</option>
-          <option value="Barbell">Barbell</option>
-          <option value="Kettlebells">Kettlebells</option>
-          <option value="Dumbbell">Dumbbell</option>
-          <option value="Other">Other</option>
-          <option value="Cable">Cable</option>
-          <option value="Machine">Machine</option>
-          <option value="Body Only">Body Only</option>
-          <option value="Medicine Ball">Medicine Ball</option>
-          <option value="Exercise Ball">Exercise Ball</option>
-          <option value="Foam Roll">Foam Roll</option>
-          <option value="E-Z Curl Bar">E-Z Curl Bar</option>
-
-        </select>
-
+         <Select
+          value={selectedEquipment}
+          onChange={handleEquipmentChange}
+          options={equipmentOptions}
+          isSearchable={true}
+          placeholder="Select an option"
+          name='equipment'
+          id='equipment'
+          required
+          className="text-gray-800 dark:text-gray-800"
+        />
         
         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-2">
           Submit
@@ -127,7 +169,7 @@ export default function Exercises() {
       </form>
 
       <div className=" bg-white dark:bg-gray-800 mt-4">
-        {loading && <h1 className="bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4"><b>Fetching data ...</b></h1>}
+        {isLoading && <LoadingComponent message="Fetching Picture..." /> }   
         {noExercises && <p className=" bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4">No Exercises found for {bodyPart} using {equipment}, please try a different combination :&#40; </p>}
         {exercises.length !== 0 && 
           <div className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">

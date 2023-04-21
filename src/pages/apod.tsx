@@ -18,7 +18,7 @@ type apod = {
 export default function Apod() {
 
   const [isLoading, setIsLoading] = useState(true);
-  const [imgObj, setImgObj] = useState<apod>();
+  const [imgObj, setImgObj] = useState<apod | null>(null);
 
   useEffect(() => {
       async function fetchData() {
@@ -30,7 +30,6 @@ export default function Apod() {
 
       // Get the response data from server as JSON.
       const result = await response.json();
-      console.log(result)
       setImgObj(result.data as apod);
       setIsLoading(false)
       }
@@ -44,7 +43,7 @@ export default function Apod() {
       {isLoading && <LoadingComponent message="Fetching Picture..." /> }   
 
       <div className="flex flex-col items-center bg-white dark:bg-gray-800 mt-4 text-gray-800 dark:text-white">
-          {imgObj !== undefined && (
+          {imgObj !== null && (
               <div className="flex flex-col items-center p-4 rounded-lg shadow-lg">
                 <p className="text-gray-800 dark:text-white">{imgObj["title"]}</p>
                 <p className="text-gray-800 dark:text-white">{imgObj["date"]}</p>
