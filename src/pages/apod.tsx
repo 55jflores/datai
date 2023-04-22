@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import LoadingComponent from "./loading";
 
-interface apodData  {
+type apod = {
     copyright: string,
     date: string,
     explanation: number,
@@ -16,11 +16,11 @@ interface apodData  {
 }
 
 interface Props {
-  apodData: apodData
+  apodData: apod
 }
 
 
-const APODPage: NextPage<Props> = ({apodData}) => {
+const apod: NextPage<Props> = ({apodData}) => {
 
   return (
     <>
@@ -47,9 +47,9 @@ const APODPage: NextPage<Props> = ({apodData}) => {
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
   // Send the form data to our API and get a response.
-  const response = await fetch(`${process.env.VERCEL_URL}/src/pages/api/apod`, {
-    // The method is POST because we are sending data.
-    method: 'GET',
+  const response = await fetch('https://datai.vercel.app/api/apod', {
+  // The method is POST because we are sending data.
+  method: 'GET',
   })
 
   // Get the response data from server as JSON.
@@ -62,5 +62,3 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   };
 
 };
-
-export default APODPage;
