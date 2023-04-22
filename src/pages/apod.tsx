@@ -1,8 +1,9 @@
-import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-interface apod  {
+import LoadingComponent from "./loading";
+
+type apod = {
     copyright: string,
     date: string,
     explanation: number,
@@ -13,49 +14,51 @@ interface apod  {
     url: string
 }
 
-interface Props {
-  apodData: apod
-}
 
+export default function Apod() {
 
-const APODPage: NextPage<Props> = ({apodData}) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [imgObj, setImgObj] = useState<apod | null>(null);
+
+  useEffect(() => {
+      async function fetchData() {
+      // Send the form data to our API and get a response.
+      const response = await fetch('/api/apod', {
+      // The method is POST because we are sending data.
+      method: 'GET',
+      })
+
+      // Get the response data from server as JSON.
+      const result = await response.json();
+      setImgObj(result.data as apod);
+      setIsLoading(false)
+      }
+      fetchData();
+  },[])
+
 
   return (
     <>
+
+      {isLoading && <LoadingComponent message="Fetching Picture..." /> }   
+
       <div className="flex flex-col items-center bg-white dark:bg-gray-800 mt-4 text-gray-800 dark:text-white">
-          
+          {imgObj !== null && (
               <div className="flex flex-col items-center p-4 rounded-lg shadow-lg">
-                <p className="text-gray-800 dark:text-white">{apodData["title"]}</p>
-                <p className="text-gray-800 dark:text-white">{apodData["date"]}</p>
+                <p className="text-gray-800 dark:text-white">{imgObj["title"]}</p>
+                <p className="text-gray-800 dark:text-white">{imgObj["date"]}</p>
                 <Image
                     className="rounded-md"
-                    src={apodData["url"]}
+                    src={imgObj["url"]}
                     alt="new"
                     width={512}
                     height={512}
                 />
-                <p className="text-gray-800 dark:text-white">{apodData["explanation"]}</p>
+                <p className="text-gray-800 dark:text-white">{imgObj["explanation"]}</p>
               </div>
-      
+          )}
+
       </div>
     </>
   );
 }
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-
-  // Send the form data to our API and get a response.
-  const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA}`,{method: 'GET'});
-
-  // Get the response data from server as JSON.
-  const apodData = await response.json();
-
-  return {
-    props: {
-      apodData,
-    },
-  };
-
-};
-
-export default APODPage;
