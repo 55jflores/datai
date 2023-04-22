@@ -2,9 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-import LoadingComponent from "./loading";
-
-type apod = {
+interface apod  {
     copyright: string,
     date: string,
     explanation: number,
@@ -20,7 +18,7 @@ interface Props {
 }
 
 
-const apod: NextPage<Props> = ({apodData}) => {
+const APODPage: NextPage<Props> = ({apodData}) => {
 
   return (
     <>
@@ -47,10 +45,7 @@ const apod: NextPage<Props> = ({apodData}) => {
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
   // Send the form data to our API and get a response.
-  const response = await fetch('https://datai.vercel.app/api/apod', {
-  // The method is POST because we are sending data.
-  method: 'GET',
-  })
+  const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA}`,{method: 'GET'});
 
   // Get the response data from server as JSON.
   const apodData = await response.json();
@@ -62,3 +57,5 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
   };
 
 };
+
+export default APODPage;
