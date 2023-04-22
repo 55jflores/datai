@@ -47,7 +47,7 @@ const APODPage: NextPage<Props> = ({apodData}) => {
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
   // Send the form data to our API and get a response.
-  const response = await fetch(`${process.env.VERCEL_URL}/api/apod`, {
+  const response = await fetch(`${process.env.VERCEL_URL}/src/pages/api/apod`, {
     // The method is POST because we are sending data.
     method: 'GET',
   })
