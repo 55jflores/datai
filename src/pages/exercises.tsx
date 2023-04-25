@@ -175,7 +175,7 @@ export default function Exercises() {
       </form>
 
       <div className=" bg-white dark:bg-gray-800 mt-4">
-        {isLoading && <LoadingComponent message="Fetching Picture..." /> }   
+        {isLoading && <LoadingComponent message="Fetching exercises..." /> }   
         {noExercises && <p className=" bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white p-4 rounded-lg shadow-lg mb-4">No Exercises found for {bodyPart} using {equipment}, please try a different combination :&#40; </p>}
         {exercises.length !== 0 && 
           <div className="bg-gray-300 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-4">

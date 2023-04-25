@@ -19,7 +19,7 @@ function NavBar() {
 
             <Link href="/name">
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover: hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
-                Name classifier
+                Last Name Classifier
               </p>
             </Link>
 
