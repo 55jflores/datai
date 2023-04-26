@@ -75,6 +75,11 @@ const NavBar = () => {
                     Last Name Classifier
                   </p>
                 </Link>
+                <Link href="/cancer">
+                  <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
+                    Cancer Cell Classifier
+                  </p>
+                </Link>
                 <Link href="/apod">
                   <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
                     Astronomy Pic of the Day
@@ -106,6 +111,11 @@ const NavBar = () => {
             <Link href="/name" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
                 Last Name Classifier
+              </p>
+            </Link>
+            <Link href="/cancer" onClick={() => setMenuOpen(!menuOpen)}>
+              <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
+                Cancer Cell Classifier
               </p>
             </Link>
 
