@@ -65,6 +65,11 @@ const NavBar = () => {
                     Gym Exercises
                   </p>
                 </Link>
+                <Link href="/filters">
+                  <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
+                    Image Filters
+                  </p>
+                </Link>
                 <Link href="/name">
                   <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
                     Last Name Classifier
@@ -85,21 +90,31 @@ const NavBar = () => {
      {menuOpen && (
         <div className="sm:hidden" id="mobile-menu">
           <div className="px-2 pt-2 pb-3 space-y-1">
+            
             <Link href="/exercises" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
                 Gym Exercises
               </p>
             </Link>
+
+            <Link href="/filters" onClick={() => setMenuOpen(!menuOpen)}>
+              <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
+                Image Filters
+              </p>
+            </Link>
+
             <Link href="/name" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
                 Last Name Classifier
               </p>
             </Link>
+
             <Link href="/apod" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
                 Astronomy Pic of the Day
               </p>
             </Link>
+            
           </div>
         </div>
       )}
