@@ -67,7 +67,7 @@ const NavBar = () => {
             </button>
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <Link href="/" onClick={() => setMenuOpen(!menuOpen)}>
+            <Link href="/" onClick={() => setMenuOpen(false)}>
               <p className="text-gray-800 dark:text-white font-bold text-lg">
                 datai
               </p>
