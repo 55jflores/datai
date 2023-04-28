@@ -1,11 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [navRef]);
 
   return (
-    <nav className="bg-gray-100 dark:bg-gray-800">
+    <nav className="bg-gray-100 dark:bg-gray-800" ref={navRef}>
       <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -53,14 +67,14 @@ const NavBar = () => {
             </button>
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <Link href="/">
+            <Link href="/" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white font-bold text-lg">
                 datai
               </p>
             </Link>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <Link href="/exercises">
+                <Link href="/exercises" >
                   <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
                     Gym Exercises
                   </p>
@@ -93,8 +107,8 @@ const NavBar = () => {
 
      {/* Mobile menu, show/hide based on menu state */}
      {menuOpen && (
-        <div className="sm:hidden" id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className=" sm:hidden " id="mobile-menu">
+          <div className="absolute px-2 pt-2 pb-3 space-y-1 bg-gray-300 dark:bg-gray-700  p-6 rounded-lg shadow-lg" style={{zIndex:50}}>
             
             <Link href="/exercises" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
