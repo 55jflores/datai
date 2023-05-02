@@ -1,6 +1,7 @@
 import { FormEvent } from 'react'
 import { useState } from 'react'
 import Select from 'react-select';
+import Head from "next/head";
 
 import LoadingComponent from "./loading";
 
@@ -129,6 +130,9 @@ export default function Exercises() {
   return (
 
     <div>
+       <Head>
+          <title>Gym Exercises</title>
+        </Head>
       <div className='flex flex-col items-center text-gray-800 dark:text-white'>
         <h1>Welcome!</h1>
         <h1>Enter a Body part you&apos;d like to target as well as equipment you&apos;d like to use</h1>

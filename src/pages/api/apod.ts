@@ -24,5 +24,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const apod_json = await apod_response.json();
 
   // Return JSON
-  res.json({data: apod_json})
+  res.json(apod_json)
 }

@@ -1,9 +1,13 @@
+import Head from "next/head";
+
 export default function Home() {
 
   return (
 
     <div>
-      
+       <Head>
+          <title>Home</title>
+        </Head>
       <div className='flex flex-col items-center text-gray-800 dark:text-white text-lg'>
         <h1>Welcome!</h1>
         <p>Named datai because I give you data and sometimes I use AI to do so</p>

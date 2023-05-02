@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
+import useSWR from 'swr';
+import Head from "next/head";
 import LoadingComponent from "./loading";
 
 type apod = {
@@ -15,46 +16,40 @@ type apod = {
 }
 
 
+const fetcher = async (url: string): Promise<apod> => {
+ const res = await fetch(url)
+ const data = await res.json();
+
+ return data;
+}
+
 export default function Apod() {
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [imgObj, setImgObj] = useState<apod | null>(null);
+  const {data, error, isLoading} = useSWR<apod>("/api/apod",fetcher);
 
-  useEffect(() => {
-      async function fetchData() {
-      // Send the form data to our API and get a response.
-      const response = await fetch('/api/apod', {
-      // The method is POST because we are sending data.
-      method: 'GET',
-      })
+  if(error) return <p>Dam, got an error</p>;
+  if(isLoading) return <LoadingComponent message='Loading NASA Picture. Sit tight'/> 
 
-      // Get the response data from server as JSON.
-      const result = await response.json();
-      setImgObj(result.data as apod);
-      setIsLoading(false)
-      }
-      fetchData();
-  },[])
-
+  console.log(data);
 
   return (
     <>
-
-      {isLoading && <LoadingComponent message="Fetching Picture..." /> }   
-
       <div className="flex flex-col items-center bg-white dark:bg-gray-800 mt-4 text-gray-800 dark:text-white">
-          {imgObj !== null && (
+        <Head>
+          <title>Astronomy Pic of the Day</title>
+        </Head>
+          {data && (
               <div className="flex flex-col items-center p-4 rounded-lg shadow-lg">
-                <p className="text-gray-800 dark:text-white">{imgObj["title"]}</p>
-                <p className="text-gray-800 dark:text-white">{imgObj["date"]}</p>
+                <p className="text-gray-800 dark:text-white">{data.title}</p>
+                <p className="text-gray-800 dark:text-white">{data.date}</p>
                 <Image
                     className="rounded-md"
-                    src={imgObj["url"]}
-                    alt="new"
+                    src={data.url}
+                    alt={`${data.title} image not found`}
                     width={512}
                     height={512}
                 />
-                <p className="text-gray-800 dark:text-white">{imgObj["explanation"]}</p>
+                <p className="text-gray-800 dark:text-white">{data.explanation}</p>
               </div>
           )}
 
