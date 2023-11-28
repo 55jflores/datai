@@ -26,11 +26,14 @@ const fetcher = async (url: string): Promise<apod> => {
 export default function Apod() {
 
   const {data, error, isLoading} = useSWR<apod>("/api/apod",fetcher);
-
+  const[loadingImg, setLoadingImg] = useState(true) 
   if(error) return <p>Dam, got an error</p>;
   if(isLoading) return <LoadingComponent message='Loading NASA Picture. Sit tight'/> 
 
-  console.log(data);
+  function cn(...classes: string[]) {
+    console.log(classes.filter(Boolean).join(' '))
+    return classes.filter(Boolean).join(' ')
+  }
 
   return (
     <>
@@ -43,11 +46,17 @@ export default function Apod() {
                 <p className="text-gray-800 dark:text-white">{data.title}</p>
                 <p className="text-gray-800 dark:text-white">{data.date}</p>
                 <Image
-                    className="rounded-md"
+                     className={cn(
+                      'duration-700 ease-in-out group-hover:opacity-75',
+                      loadingImg
+                        ? 'scale-110 blur-2xl grayscale'
+                        : 'scale-100 blur-0 grayscale-0'
+                    )}
                     src={data.url}
                     alt={`${data.title} image not found`}
                     width={512}
                     height={512}
+                    onLoadingComplete={() => setLoadingImg(false)}
                 />
                 <p className="text-gray-800 dark:text-white">{data.explanation}</p>
               </div>

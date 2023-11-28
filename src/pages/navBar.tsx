@@ -74,11 +74,7 @@ const NavBar = () => {
             </Link>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <Link href="/exercises" >
-                  <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
-                    Gym Exercises
-                  </p>
-                </Link>
+           
                 <Link href="/filters">
                   <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium">
                     Image Filters
@@ -110,11 +106,7 @@ const NavBar = () => {
         <div className=" sm:hidden " id="mobile-menu">
           <div className="absolute px-2 pt-2 pb-3 space-y-1 bg-gray-300 dark:bg-gray-700  p-6 rounded-lg shadow-lg" style={{zIndex:50}}>
             
-            <Link href="/exercises" onClick={() => setMenuOpen(!menuOpen)}>
-              <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">
-                Gym Exercises
-              </p>
-            </Link>
+          
 
             <Link href="/filters" onClick={() => setMenuOpen(!menuOpen)}>
               <p className="text-gray-800 dark:text-white hover:bg-gray-500 hover:text-gray-300 dark:hover:text-gray-800 block px-3 py-2 rounded-md text-base font-medium">

@@ -111,6 +111,7 @@ export default function Exercises() {
 
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
+    console.log('RESPONSE ',response)
     const result = await response.json()
     setBodyPart(form.bodypart.value as string)
     setEquipment(form.equipment.value as string)
